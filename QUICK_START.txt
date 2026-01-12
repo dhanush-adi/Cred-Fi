@@ -1,0 +1,120 @@
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║        🚀 CRED - Quick Start Guide 🚀                    ║
+║                                                           ║
+║  Simplified Wallet Analysis with MetaMask & vlayer       ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  📋 WHAT CHANGED:                                         ║
+║                                                           ║
+║  ✅ Removed Privy email login                            ║
+║  ✅ Added direct MetaMask connection                     ║
+║  ✅ Created wallet analysis with vlayer                  ║
+║  ✅ New simplified landing page                          ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🎯 FLOW:                                                 ║
+║                                                           ║
+║  1. Connect MetaMask                                      ║
+║  2. Wallet gets analyzed by vlayer                        ║
+║  3. See activity stats + ZK proof                         ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🚀 HOW TO RUN:                                           ║
+║                                                           ║
+║  Quick Start (one command):                               ║
+║  $ ./start-simple.sh                                      ║
+║                                                           ║
+║  OR using npm:                                            ║
+║  $ npm run dev:simple                                     ║
+║                                                           ║
+║  OR manually:                                             ║
+║  Terminal 1: $ npm run server                             ║
+║  Terminal 2: $ npm run web:simple                         ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🌐 ACCESS:                                               ║
+║                                                           ║
+║  Frontend: http://localhost:8081                          ║
+║  Backend:  http://localhost:3001                          ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  📁 KEY FILES:                                            ║
+║                                                           ║
+║  AppSimple.tsx                   Main app                 ║
+║  src/screens/SimpleLandingScreen.tsx                      ║
+║  server.js                       Backend + vlayer         ║
+║  README_SIMPLE.md                Full documentation       ║
+║  IMPLEMENTATION_SUMMARY.md       Technical details        ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  ⚙️ REQUIREMENTS:                                         ║
+║                                                           ║
+║  ✓ Node.js (v16+)                                         ║
+║  ✓ MetaMask browser extension                            ║
+║  ✓ Internet connection                                    ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🔍 WHAT IT ANALYZES:                                     ║
+║                                                           ║
+║  • Total transactions on Polygon                          ║
+║  • Wallet balance                                         ║
+║  • Activity score                                         ║
+║  • Generates ZK proof with vlayer                         ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🎨 TECH STACK:                                           ║
+║                                                           ║
+║  Frontend:  React Native Web + Expo                       ║
+║  Wallet:    ethers.js + MetaMask                          ║
+║  ZK Proofs: vlayer Web Prover                             ║
+║  Backend:   Express.js + Node.js                          ║
+║  Network:   Polygon Mainnet                               ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  📚 DOCUMENTATION:                                        ║
+║                                                           ║
+║  README_SIMPLE.md          User guide & setup             ║
+║  IMPLEMENTATION_SUMMARY.md Technical overview             ║
+║  THIS FILE                 Quick reference                ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  💡 TROUBLESHOOTING:                                      ║
+║                                                           ║
+║  Problem: MetaMask not connecting                         ║
+║  Solution: Install MetaMask extension & refresh           ║
+║                                                           ║
+║  Problem: Backend not responding                          ║
+║  Solution: Check port 3001 is free, restart server        ║
+║                                                           ║
+║  Problem: Analysis fails                                  ║
+║  Solution: Ensure wallet has Polygon activity             ║
+║                                                           ║
+╠═══════════════════════════════════════════════════════════╣
+║                                                           ║
+║  🎯 NEXT STEPS:                                           ║
+║                                                           ║
+║  This is the basic flow. More features coming in          ║
+║  future sessions as mentioned by user!                    ║
+║                                                           ║
+║  Potential additions:                                     ║
+║  • Multi-chain support                                    ║
+║  • Credit scoring                                         ║
+║  • DeFi analytics                                         ║
+║  • NFT portfolio tracking                                 ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+Ready to start? Run: ./start-simple.sh
+
+Questions? Check README_SIMPLE.md for details!
