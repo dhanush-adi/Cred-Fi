@@ -1,53 +1,292 @@
-# Cred-Fi - DeFi Credit Platform
+# Cred-Fi: Complete DeFi Credit Platform
 
-Complete DeFi credit platform with zero-knowledge credit scoring, AI agent wallets, and decentralized marketplace on Shardeum blockchain.
+A decentralized finance (DeFi) credit platform built on the Shardeum blockchain that combines zero-knowledge verification, AI agent wallets, and flexible credit lines for transparent financial access.
 
-## ⚡ Quick Start
+## 🌟 Features
 
-### Prerequisites
-- Node.js 16+
-- MetaMask wallet
-- Shardeum testnet tokens ([get from faucet](https://faucet-mezame.shardeum.org/))
+### Zero-Knowledge Verification
+- Prove creditworthiness without revealing sensitive financial information
+- Privacy-preserving income and asset verification
+- Secure on-chain proof generation using vlayer technology
 
-### 1. Clone Repository
+### AI Agent Wallets
+- **DeFi Trader**: Autonomous trading execution on decentralized exchanges
+- **Yield Optimizer**: Automated yield farming and protocol selection
+- **Payment Router**: Intelligent payment routing for cost optimization
+- **Shopping Assistant**: Smart spending management within credit limits
+
+### Flexible Credit Lines
+- Uncollateralized lending based on credit scores
+- Dynamic credit limits calculated from wallet activity and balance
+- Transparent APR rates (3-12% depending on risk tier)
+- Instant approval process
+
+### Real-time Dashboard
+- Live wallet balance and transaction history
+- Credit score calculation based on on-chain activity
+- Active agent management and performance tracking
+- Portfolio overview and analytics
+
+## 🛠 Tech Stack
+
+### Frontend
+- **Framework**: Next.js 16 with TypeScript
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Web3**: wagmi for wallet connections, ethers.js for blockchain interaction
+- **State Management**: React Hooks
+
+### Backend
+- **Runtime**: Node.js with Express.js
+- **Blockchain**: Shardeum Mezame Testnet (Chain ID: 8119)
+- **Web3 Library**: ethers.js for RPC calls
+- **Smart Contracts**: Solidity with Hardhat for development
+
+### Blockchain
+- **Network**: Shardeum Mezame (testnet)
+- **Token**: SHM (Shardeum)
+- **RPC**: https://api-mezame.shardeum.org
+
+## 📋 Prerequisites
+
+- Node.js >= 18.0.0
+- npm or pnpm package manager
+- MetaMask or compatible Web3 wallet
+- Shardeum Mezame testnet configured in wallet (Chain ID: 8119)
+- SHM testnet tokens (get from [faucet](https://faucet-mezame.shardeum.org/))
+
+## 🚀 Quick Start
+
+### 1. Clone the Repository
 ```bash
-git clone <your-repo-url>
-cd Cred-Fi-main
+git clone https://github.com/yourusername/cred-fi.git
+cd cred-fi
 ```
 
-### 2. Backend Setup
-
-### 2. Backend Setup
-
-```bash
-cd backend
-npm install
-cp .env.example .env
-# Edit .env with your PRIVATE_KEY and API keys
-npm start
-```
-
-Backend runs on **http://localhost:3001**
-
-### 3. Frontend Setup
+### 2. Frontend Setup
+See [frontend/README.md](./frontend/README.md) for detailed frontend setup instructions.
 
 ```bash
 cd frontend
 npm install
-cp .env.local.example .env.local
 npm run dev
+# Runs on http://localhost:3000
 ```
 
-Frontend runs on **http://localhost:3000**
+### 3. Backend Setup
+See [backend/README.md](./backend/README.md) for detailed backend setup instructions.
 
-### 4. Generate Complete UI (Recommended)
+```bash
+cd backend
+npm install
+npm start
+# Runs on http://localhost:3001
+```
 
-The frontend includes placeholder pages. To get the full production-ready dashboard:
+## 📁 Project Structure
 
-1. Visit [v0.dev](https://v0.dev)
-2. Open `/V0_PROMPT.md` and copy the entire prompt
-3. Paste into v0.dev and generate
-4. Copy generated code into `frontend/src/`
+```
+cred-fi/
+├── frontend/                 # Next.js frontend application
+│   ├── app/                 # Next.js app directory
+│   │   ├── dashboard/       # Protected dashboard pages
+│   │   │   ├── agents/      # AI agents management
+│   │   │   ├── credit/      # Credit management
+│   │   │   ├── marketplace/ # Marketplace
+│   │   │   └── settings/    # User settings
+│   │   ├── page.tsx         # Landing page
+│   │   └── layout.tsx       # Root layout
+│   ├── components/          # Reusable React components
+│   │   ├── dashboard/       # Dashboard-specific components
+│   │   ├── modals/          # Modal dialogs
+│   │   └── ui/              # UI primitives (shadcn/ui)
+│   ├── hooks/               # Custom React hooks
+│   ├── lib/                 # Utilities and helpers
+│   ├── public/              # Static assets
+│   ├── styles/              # Global styles
+│   └── README.md            # Frontend documentation
+│
+├── backend/                 # Express.js backend
+│   ├── contracts/           # Solidity smart contracts
+│   │   ├── FlexCreditCore.sol
+│   │   ├── AgentWallet.sol
+│   │   ├── AgentPolicy.sol
+│   │   ├── IncomeProofVerifier.sol
+│   │   └── AgentPerformanceVerifier.sol
+│   ├── scripts/             # Deployment scripts
+│   ├── server.js            # Express server
+│   ├── test-integrations.js # Integration tests
+│   ├── hardhat.config.cjs   # Hardhat configuration
+│   ├── package.json
+│   └── README.md            # Backend documentation
+│
+└── README.md               # This file
+```
+
+## 🔌 API Endpoints
+
+### User Data
+- `GET /api/user/:address` - Get user data by wallet address
+  - Returns: balance, creditScore, availableCredit, activeAgents, transactions, dataSource
+
+### Wallet Analysis
+- `POST /api/wallet-analysis/:address` - Detailed wallet analysis
+  - Returns: comprehensive credit analysis with risk tier and lending capacity
+
+### Transfers
+- `POST /api/transfer` - Process token transfers
+  - Body: `{ from, to, amount, items }`
+
+### Health
+- `GET /health` - Server health check
+
+## 💡 Key Concepts
+
+### Credit Score Calculation
+```
+activityScore = min(100, (transactionCount / 10) * 100)
+balanceScore = min(100, walletBalance * 10)
+creditScore = floor((activityScore * 0.6) + (balanceScore * 0.4))
+```
+
+Score is weighted 60% on transaction activity and 40% on wallet balance.
+
+### Available Credit
+```
+baseLendingCapacity = walletBalance * 0.5
+activityBonus = (transactionCount / 100) * 100
+availableCredit = max(100, baseLendingCapacity + activityBonus)
+```
+
+Minimum available credit is 100 SHM, with additional capacity based on activity.
+
+### Risk Tiers
+- **Excellent** (score ≥ 80): 3% APR
+- **Good** (score ≥ 60): 5% APR
+- **Fair** (score ≥ 40): 8% APR
+- **Building** (score < 40): 12% APR
+
+## 🔗 Wallet Integration
+
+### Supported Wallets
+- MetaMask
+- WalletConnect
+- Coinbase Wallet
+
+### Network Configuration
+When connecting, ensure your wallet is set to:
+- **Network Name**: Shardeum Mezame
+- **Chain ID**: 8119
+- **RPC URL**: https://api-mezame.shardeum.org
+- **Currency**: SHM
+
+## 📊 Dashboard Features
+
+### Home Page
+- Real-time wallet balance fetched from blockchain
+- Dynamic credit score calculation
+- Available credit display
+- Active agents count
+- Recent transaction history from blockchain
+
+### Agents Page
+- Deploy AI agents for automated operations
+- Monitor agent status (Active/Paused)
+- View agent reputation and performance metrics
+- Set daily transaction limits per agent
+- Educational explanation of agent types
+
+### Credit Page
+- View credit history and utilization
+- Borrow and repay transaction management
+- Interest calculation details
+- Credit score breakdown
+
+### Settings Page
+- Dynamic wallet address display and copy functionality
+- Network information and chain details
+- Notification preferences
+- Privacy and security settings
+- Wallet disconnect functionality
+
+## 🧪 Features
+
+### Real-time Data Updates
+- **Wallet Balance**: Fetched directly from Shardeum blockchain
+- **Transaction History**: Retrieved from blockchain with fallback mock data
+- **Credit Score**: Calculated based on actual on-chain metrics
+- **Dynamic Content**: All data updates when wallet changes
+
+### Error Handling
+- Graceful fallback to mock data when blockchain is unavailable
+- User-friendly error messages
+- Retry mechanisms for failed requests
+- Timeout protection for RPC calls
+
+## 🚢 Deployment
+
+### Frontend (Vercel)
+```bash
+cd frontend
+npm run build
+vercel deploy
+```
+
+### Backend (Any Node.js hosting)
+```bash
+cd backend
+npm run build
+npm start
+```
+
+Ensure environment variables are set in production.
+
+## 🔒 Security Features
+
+1. **Zero-Knowledge Proofs**: Private verification without data exposure
+2. **Smart Contract Audits**: Formal verification of contract logic
+3. **Rate Limiting**: API endpoint protection
+4. **Input Validation**: Strict validation on all inputs
+5. **Secure Wallet Integration**: Non-custodial wallet connections
+6. **Environment Variables**: Sensitive data in .env files
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For issues and questions:
+1. Check existing GitHub issues
+2. Create a new issue with detailed description
+3. Contact the development team
+
+## 🔄 Project Status
+
+- ✅ Frontend Dashboard: Complete
+- ✅ Backend API: Complete
+- ✅ Wallet Integration: Complete
+- ✅ Real-time Data Fetching: Complete
+- ✅ Settings and Account Management: Complete
+- 🔄 Smart Contracts: In Development
+- 🔄 Advanced Analytics: In Development
+
+## 📞 Contact
+
+- **Email**: support@cred-fi.com
+- **Twitter**: @CredFiDeFi
+- **Discord**: [Join Community](https://discord.gg/credfidefi)
+
+---
+
+**Built on Shardeum - Enterprise-Grade Blockchain** 🚀
 5. Install additional dependencies as suggested by v0.dev
 
 ## 🏗️ Architecture

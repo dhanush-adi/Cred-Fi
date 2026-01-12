@@ -65,6 +65,42 @@ CHAIN_ID=8119
 
 ## 🔌 API Endpoints
 
+### User Data & Credit Scoring
+```bash
+GET /api/user/:address
+Response: {
+  address: "0x...",
+  balance: 12558.21,
+  creditScore: 750,
+  riskTier: "good",
+  activityScore: 75,
+  balanceScore: 95,
+  transactionCount: 24,
+  recentTransactions: [
+    {
+      hash: "0x...",
+      from: "0x...",
+      to: "0x...",
+      value: "1.5",
+      timestamp: 1234567890
+    }
+  ]
+}
+```
+
+**Credit Score Calculation:**
+```
+activityScore = min(transactionCount * 2, 100)
+balanceScore = min((balance / 10000) * 100, 100)
+creditScore = floor((activityScore * 0.6) + (balanceScore * 0.4))
+```
+
+**Risk Tiers:**
+- **Excellent** (800-1000): creditScore >= 800
+- **Good** (600-799): creditScore >= 600
+- **Fair** (400-599): creditScore >= 400
+- **Building** (< 400): New or inactive users
+
 ### Credit Analysis (vlayer)
 ```bash
 POST /api/vlayer/comprehensive-analysis
@@ -94,6 +130,16 @@ Response: { verified: true, monthlyIncome: 5000 }
 ```bash
 GET /health
 Response: { status: "ok", message: "vlayer proxy server running" }
+```
+
+### Agent Management
+```bash
+POST /api/agents/deploy
+Body: { name: "Agent Name", walletAddress: "0x..." }
+Response: { agentId: "deployed-100-1234567890", address: "0x..." }
+
+GET /api/agents/:agentId
+Response: { id, name, status, balance, deploymentBlock }
 ```
 
 ## 📜 Smart Contracts (11 Total)
