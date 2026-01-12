@@ -9,7 +9,7 @@ export default function LandingPage() {
       <nav className="sticky top-0 z-50 border-b border-border/40 backdrop-blur-md glass-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent"></div>
+            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary to-accent"></div>
             <span className="font-bold text-lg text-foreground">Cred-Fi</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
@@ -27,7 +27,7 @@ export default function LandingPage() {
       <section className="relative px-4 sm:px-6 lg:px-8 py-20 sm:py-32 overflow-hidden">
         {/* Animated background grid */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20 opacity-40"></div>
+          <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-transparent to-accent/20 opacity-40"></div>
           <svg className="absolute w-full h-full opacity-10" preserveAspectRatio="none">
             <defs>
               <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
@@ -46,7 +46,7 @@ export default function LandingPage() {
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
             <span className="text-balance">Complete DeFi</span>
             <br />
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
               Credit Platform
             </span>
           </h1>
@@ -60,7 +60,7 @@ export default function LandingPage() {
             <Link href="/dashboard">
               <Button
                 size="lg"
-                className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                className="w-full sm:w-auto bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
               >
                 Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -101,7 +101,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Feature 1 */}
             <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-primary/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
               <div className="relative">
                 <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
                   <Lock className="h-6 w-6 text-primary" />
@@ -115,7 +115,7 @@ export default function LandingPage() {
 
             {/* Feature 2 */}
             <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-accent/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
               <div className="relative">
                 <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
                   <Zap className="h-6 w-6 text-accent" />
@@ -129,7 +129,7 @@ export default function LandingPage() {
 
             {/* Feature 3 */}
             <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-primary/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
               <div className="relative">
                 <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
                   <ShoppingCart className="h-6 w-6 text-primary" />
@@ -143,7 +143,7 @@ export default function LandingPage() {
 
             {/* Feature 4 */}
             <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-accent/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
               <div className="relative">
                 <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
                   <TrendingUp className="h-6 w-6 text-accent" />
@@ -162,10 +162,10 @@ export default function LandingPage() {
       <section id="network" className="px-4 sm:px-6 lg:px-8 py-20 sm:py-32 border-t border-border/40">
         <div className="max-w-4xl mx-auto">
           <div className="relative p-8 rounded-xl border border-border/40 glass">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-xl"></div>
+              <div className="absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10 rounded-xl"></div>
             <div className="relative">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <div className="w-12 h-12 rounded-lg bg-linear-to-br from-primary to-accent flex items-center justify-center">
                   <Zap className="h-6 w-6 text-white" />
                 </div>
                 <div>
@@ -213,7 +213,7 @@ export default function LandingPage() {
           <Link href="/dashboard">
             <Button
               size="lg"
-              className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+              className="bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
             >
               Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -226,7 +226,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-primary to-accent"></div>
+              <div className="w-6 h-6 rounded-lg bg-linear-to-br from-primary to-accent"></div>
               <span className="font-semibold text-foreground">Cred-Fi</span>
             </div>
             <div className="flex gap-6 text-sm text-muted-foreground">

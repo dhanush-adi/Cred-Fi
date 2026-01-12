@@ -65,18 +65,8 @@ export function DashboardClient() {
         setUserData(data)
       } catch (err) {
         console.error("Error fetching user data:", err)
-        // Use default values on error
-        setUserData({
-          balance: Math.floor(Math.random() * 500),
-          creditScore: Math.floor(Math.random() * 100),
-          availableCredit: Math.floor(Math.random() * 1000),
-          activeAgents: Math.floor(Math.random() * 5),
-          transactions: [
-            { type: "Transfer", amount: "50 SHM", status: "Confirmed", date: "2 hours ago" },
-            { type: "Borrow", amount: "100 SHM", status: "Confirmed", date: "1 day ago" },
-            { type: "Yield", amount: "5.2 SHM", status: "Confirmed", date: "3 days ago" },
-          ],
-        })
+        // Show error to user instead of fake data
+        setError("Failed to load user data. Please try again.")
       } finally {
         setLoading(false)
       }
@@ -122,7 +112,7 @@ export function DashboardClient() {
       </div>
 
       {/* Balance Section */}
-      <Card className="p-8 bg-gradient-to-br from-primary/20 to-accent/20 border-primary/40">
+      <Card className="p-8 bg-linear-to-br from-primary/20 to-accent/20 border-primary/40">
         <p className="text-sm text-muted-foreground mb-2">Total Balance</p>
         <h2 className="text-4xl font-bold text-foreground mb-6">
           {userData?.balance?.toFixed(2) || "0.00"} SHM

@@ -2,9 +2,24 @@
 
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Bell, Lock, Eye, Zap } from "lucide-react"
+import { Bell, Lock, Eye, Zap, Copy } from "lucide-react"
+import { useWallet } from "@/hooks/use-wallet"
+import { useState } from "react"
 
 export default function SettingsPage() {
+  const { address, disconnect } = useWallet()
+  const [copiedAddress, setCopiedAddress] = useState(false)
+
+  const handleCopyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address)
+      setCopiedAddress(true)
+      setTimeout(() => setCopiedAddress(false), 2000)
+    }
+  }
+
+  const displayAddress = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : "Not Connected"
+
   return (
     <div className="space-y-8">
       <div>
@@ -19,10 +34,19 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between pb-6 border-b border-border/40">
             <div>
               <h3 className="font-semibold text-foreground mb-1">Wallet Address</h3>
-              <p className="text-sm text-muted-foreground font-mono">0x1234567890abcdef...5678</p>
+              <p className="text-sm text-muted-foreground font-mono">{address || "Not Connected"}</p>
+              {address && (
+                <p className="text-xs text-muted-foreground mt-1">Full: {address}</p>
+              )}
             </div>
-            <Button variant="outline" size="sm">
-              Copy
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={handleCopyAddress}
+              disabled={!address}
+            >
+              <Copy className="h-4 w-4 mr-2" />
+              {copiedAddress ? "Copied!" : "Copy"}
             </Button>
           </div>
 
@@ -41,7 +65,12 @@ export default function SettingsPage() {
               <h3 className="font-semibold text-foreground mb-1">Disconnect Wallet</h3>
               <p className="text-sm text-muted-foreground">Log out of your account</p>
             </div>
-            <Button variant="destructive" size="sm">
+            <Button 
+              variant="destructive" 
+              size="sm"
+              onClick={() => disconnect()}
+              disabled={!address}
+            >
               Disconnect
             </Button>
           </div>
