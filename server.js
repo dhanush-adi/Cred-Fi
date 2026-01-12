@@ -266,6 +266,150 @@ app.post('/api/vlayer/analyze-wallet', async (req, res) => {
   }
 });
 
+// POST /api/vlayer/comprehensive-analysis - Single wallet comprehensive credit analysis
+app.post('/api/vlayer/comprehensive-analysis', async (req, res) => {
+  try {
+    const { wallets = [], vouchVerification } = req.body;
+    
+    if (!wallets || wallets.length === 0) {
+      return res.status(400).json({ error: 'Wallet address required' });
+    }
+
+    const wallet = wallets[0]; // Only use first wallet
+    console.log(`📊 Comprehensive analysis for wallet: ${wallet}`);
+
+    // Simple hash-based mock data for demo
+    const addressHash = parseInt(wallet.slice(2, 10), 16);
+    const txCount = (addressHash % 50) + 10;
+    const balance = ((addressHash % 100) / 10) + 0.5;
+
+    // Calculate credit factors (removed multi-wallet score)
+    const onChainActivity = Math.min(100, Math.floor((txCount / 20) * 100));
+    const walletBalance = Math.min(100, Math.floor(balance * 10));
+    
+    // Vouch verification adds significant boost
+    const incomeVerification = vouchVerification && vouchVerification.verified ? 85 : 0;
+    
+    // Transaction history score
+    const transactionHistory = Math.min(100, Math.floor((txCount / 50) * 100));
+
+    // Calculate overall credit score (4 factors now, not 5)
+    const factors = {
+      onChainActivity,
+      walletBalance,
+      incomeVerification,
+      transactionHistory,
+    };
+
+    // Weighted average (removed multiWalletScore)
+    const creditScore = Math.floor(
+      (onChainActivity * 0.30) +      // Increased from 25%
+      (walletBalance * 0.25) +        // Increased from 20%
+      (incomeVerification * 0.30) +   // Same 30%
+      (transactionHistory * 0.15)     // Same 15%
+    );
+
+    // Calculate max borrow amount
+    let maxBorrowAmount = 500; // Base amount
+    
+    if (vouchVerification && vouchVerification.verified) {
+      // With income verification, can borrow up to 30% of monthly income
+      maxBorrowAmount = Math.floor(vouchVerification.monthlyIncome * 0.3);
+    } else {
+      // Without verification, based on on-chain metrics
+      maxBorrowAmount = Math.floor((balance * 0.5 * 1000) + (txCount * 10));
+    }
+
+    // Generate recommendations
+    const recommendations = [];
+    
+    if (!vouchVerification || !vouchVerification.verified) {
+      recommendations.push('Verify your income with Vouch to unlock higher borrowing limits and +20% score boost');
+    }
+    
+    if (onChainActivity < 50) {
+      recommendations.push('Increase your on-chain activity to build a stronger credit history');
+    }
+    
+    if (walletBalance < 50) {
+      recommendations.push('Maintain a higher balance to improve your creditworthiness');
+    }
+
+    if (creditScore >= 80) {
+      recommendations.push('Excellent credit! You qualify for the lowest interest rates (3.5% APR)');
+    } else if (creditScore >= 60) {
+      recommendations.push('Good credit standing. Consider verifying income to reach excellent tier');
+    }
+
+    const response = {
+      walletAddress: wallet,
+      creditScore,
+      maxBorrowAmount,
+      factors,
+      vouchVerification,
+      recommendations,
+      totalBalance: balance.toFixed(4),
+      totalTransactions: txCount,
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    console.error('❌ Comprehensive analysis error:', error);
+    return res.status(500).json({ 
+      error: 'Comprehensive analysis failed',
+      message: error.message 
+    });
+  }
+});
+
+// POST /api/vouch/initiate - Initiate Vouch verification
+app.post('/api/vouch/initiate', async (req, res) => {
+  try {
+    const { walletAddress, provider } = req.body;
+    
+    if (!walletAddress || !provider) {
+      return res.status(400).json({ error: 'walletAddress and provider required' });
+    }
+
+    // Generate unique request ID
+    const requestId = `vouch_${Date.now()}_${walletAddress.slice(0, 8)}`;
+    
+    // In production, this would redirect to actual Vouch API
+    // For demo, return mock redirect URL
+    const redirectUrl = `https://app.getvouch.io/verify?requestId=${requestId}&wallet=${walletAddress}&provider=${provider}`;
+    
+    console.log(`🔐 Initiated Vouch verification: ${provider} for ${walletAddress}`);
+    
+    return res.status(200).json({
+      requestId,
+      redirectUrl,
+      provider,
+      walletAddress,
+    });
+  } catch (error) {
+    console.error('❌ Vouch initiation error:', error);
+    return res.status(500).json({ error: 'Failed to initiate verification' });
+  }
+});
+
+// GET /api/vouch/status/:requestId - Check Vouch verification status
+app.get('/api/vouch/status/:requestId', async (req, res) => {
+  try {
+    const { requestId } = req.params;
+    
+    // In production, this would query actual Vouch API
+    // For demo, return mock status (will show as not verified until real integration)
+    
+    console.log(`🔍 Checking Vouch status: ${requestId}`);
+    
+    // Return null to indicate not yet verified (frontend will keep polling)
+    return res.status(200).json(null);
+  } catch (error) {
+    console.error('❌ Vouch status check error:', error);
+    return res.status(500).json({ error: 'Status check failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 vlayer proxy server running on http://localhost:${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/health`);

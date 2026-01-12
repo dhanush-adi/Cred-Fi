@@ -6,7 +6,7 @@ import { COLORS, SPACING, FONT_SIZES, BORDER_RADIUS } from './src/theme/colors';
 import { NETWORK_CONFIG } from './src/config/network';
 import { SimpleLandingScreen } from './src/screens/SimpleLandingScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
-import { CreditScreen } from './src/screens/CreditScreen';
+import { EnhancedCreditScreen } from './src/screens/EnhancedCreditScreen';
 import { AgentsScreen } from './src/screens/AgentsScreen';
 import { EarnScreen } from './src/screens/EarnScreen';
 import { MoreScreen } from './src/screens/MoreScreen';
@@ -92,17 +92,22 @@ export default function AppSimpleComplete() {
         }
       }
 
-      // Get balance
-      const balanceWei = await browserProvider.getBalance(address);
-      const balanceEth = ethers.formatEther(balanceWei);
-      const balanceFormatted = parseFloat(balanceEth).toFixed(4);
+      // Get balance with error handling
+      let balanceFormatted = '0.00';
+      try {
+        const balanceWei = await browserProvider.getBalance(address);
+        const balanceEth = ethers.formatEther(balanceWei);
+        balanceFormatted = parseFloat(balanceEth).toFixed(4);
+        console.log('💰 Balance:', balanceFormatted, NETWORK_CONFIG.nativeCurrency.symbol);
+      } catch (balanceError) {
+        console.warn('⚠️ Could not fetch balance (RPC issue), continuing anyway:', balanceError);
+        // Don't block connection if balance fetch fails
+      }
       
       setProvider(browserProvider);
       setWalletAddress(address);
       setBalance(balanceFormatted);
       setShowLanding(false);
-      
-      console.log('💰 Balance:', balanceFormatted, NETWORK_CONFIG.nativeCurrency.symbol);
     } catch (error: any) {
       console.error('❌ Connection error:', error);
       alert(`Failed to connect: ${error.message || 'Unknown error'}`);
@@ -139,10 +144,15 @@ export default function AppSimpleComplete() {
           setWalletAddress(accounts[0]);
           // Refresh balance
           if (provider) {
-            provider.getBalance(accounts[0]).then((bal) => {
-              const balanceEth = ethers.formatEther(bal);
-              setBalance(parseFloat(balanceEth).toFixed(4));
-            });
+            provider.getBalance(accounts[0])
+              .then((bal) => {
+                const balanceEth = ethers.formatEther(bal);
+                setBalance(parseFloat(balanceEth).toFixed(4));
+              })
+              .catch((err) => {
+                console.warn('⚠️ Could not refresh balance:', err);
+                setBalance('0.00');
+              });
           }
         }
       };
@@ -181,7 +191,7 @@ export default function AppSimpleComplete() {
           />
         );
       case 'Credit':
-        return <CreditScreen walletAddress={walletAddress} />;
+        return <EnhancedCreditScreen walletAddress={walletAddress} />;
       case 'Agents':
         return <AgentsScreen />;
       case 'Earn':

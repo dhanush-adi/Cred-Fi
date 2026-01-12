@@ -9,8 +9,8 @@ const useSimpleApp = Constants.expoConfig?.extra?.useSimple || process.env.EXPO_
 
 let App;
 if (useSimpleApp) {
-  console.log('🚀 Loading Simple Complete App (MetaMask only with all features)');
-  App = require('./AppSimpleComplete').default;
+  console.log('🚀 Loading Integrated App (Smart contract integration with vlayer + Vouch)');
+  App = require('./AppIntegrated').default;
 } else {
   console.log('🚀 Loading Full App (with Privy)');
   App = require('./App').default;

@@ -27,6 +27,7 @@
     "@react-native-community/slider": "^5.1.0",
     "@react-navigation/bottom-tabs": "^7.8.1",
     "@react-navigation/native": "^7.1.19",
+    "@web3modal/ethers": "^5.1.11",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "concurrently": "^9.2.1",
@@ -58,7 +59,7 @@
     "react-native-webview": "13.15.0",
     "readable-stream": "^4.7.0",
     "stream-browserify": "^3.0.0",
-    "viem": "^2.39.0"
+    "viem": "^2.44.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^4.0.3",
