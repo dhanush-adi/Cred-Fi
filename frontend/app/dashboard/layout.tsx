@@ -2,26 +2,54 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { TopNav } from "@/components/dashboard/top-nav"
 import { SideNav } from "@/components/dashboard/side-nav"
 import { BottomNav } from "@/components/dashboard/bottom-nav"
+import { useWallet } from "@/hooks/use-wallet"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [navOpen, setNavOpen] = useState(false)
+  const [creditScore, setCreditScore] = useState(0)
+  const { address, isConnected } = useWallet()
 
-  const handleDisconnect = () => {
-    // TODO: Implement wallet disconnect
-    console.log("Disconnect wallet")
-  }
+  // Fetch credit score when wallet changes
+  useEffect(() => {
+    if (!isConnected || !address) {
+      setCreditScore(0)
+      return
+    }
+
+    const fetchCreditScore = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/api/user/${address}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
+
+        if (response.ok) {
+          const data = await response.json()
+          setCreditScore(data.creditScore || 0)
+        }
+      } catch (error) {
+        console.error("Error fetching credit score:", error)
+        setCreditScore(0)
+      }
+    }
+
+    fetchCreditScore()
+  }, [address, isConnected])
 
   return (
     <div className="min-h-screen bg-background">
       <TopNav
-        creditScore={72}
-        walletAddress="0x1234567890abcdef"
+        creditScore={creditScore}
         onMenuToggle={setNavOpen}
-        onDisconnect={handleDisconnect}
       />
 
       <div className="flex">

@@ -162,7 +162,7 @@ export default function LandingPage() {
       <section id="network" className="px-4 sm:px-6 lg:px-8 py-20 sm:py-32 border-t border-border/40">
         <div className="max-w-4xl mx-auto">
           <div className="relative p-8 rounded-xl border border-border/40 glass">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-xl"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-xl"></div>
             <div className="relative">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">

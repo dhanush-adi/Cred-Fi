@@ -12,26 +12,41 @@ export function useWallet() {
 
   useEffect(() => {
     setIsMounted(true)
-  }, [])
+    // Debug: Log available connectors
+    if (connectors.length > 0) {
+      console.log("Available connectors:", connectors.map(c => ({ name: c.name, id: c.id })))
+    } else {
+      console.warn("No connectors available - wagmi may not be properly initialized")
+    }
+  }, [connectors])
 
   const connectMetaMask = useCallback(() => {
     const metaMaskConnector = connectors.find((c) => c.name === "MetaMask")
     if (metaMaskConnector) {
+      console.log("Connecting with MetaMask...")
       connect({ connector: metaMaskConnector })
+    } else {
+      console.warn("MetaMask connector not found. Available connectors:", connectors.map(c => c.name))
     }
   }, [connect, connectors])
 
   const connectWalletConnect = useCallback(() => {
     const wcConnector = connectors.find((c) => c.name === "WalletConnect")
     if (wcConnector) {
+      console.log("Connecting with WalletConnect...")
       connect({ connector: wcConnector })
+    } else {
+      console.warn("WalletConnect connector not found. Available connectors:", connectors.map(c => c.name))
     }
   }, [connect, connectors])
 
   const connectCoinbase = useCallback(() => {
     const cbConnector = connectors.find((c) => c.name === "Coinbase Wallet")
     if (cbConnector) {
+      console.log("Connecting with Coinbase Wallet...")
       connect({ connector: cbConnector })
+    } else {
+      console.warn("Coinbase connector not found. Available connectors:", connectors.map(c => c.name))
     }
   }, [connect, connectors])
 
@@ -48,5 +63,6 @@ export function useWallet() {
     disconnect,
     status,
     error,
+    connectors, // Expose connectors for debugging
   }
 }

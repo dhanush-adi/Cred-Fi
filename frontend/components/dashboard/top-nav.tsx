@@ -5,6 +5,7 @@ import { useState } from "react"
 import { NetworkBadge } from "./network-badge"
 import { CreditBadge } from "./credit-badge"
 import { Button } from "@/components/ui/button"
+import { useWallet } from "@/hooks/use-wallet"
 
 interface TopNavProps {
   walletAddress?: string
@@ -15,6 +16,10 @@ interface TopNavProps {
 
 export function TopNav({ walletAddress, creditScore = 0, onMenuToggle, onDisconnect }: TopNavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { address, isConnected, disconnect, connectMetaMask } = useWallet()
+  
+  // Use actual wallet address if connected, otherwise use passed prop
+  const displayAddress = isConnected ? address : walletAddress
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -24,6 +29,13 @@ export function TopNav({ walletAddress, creditScore = 0, onMenuToggle, onDisconn
   const truncateAddress = (addr: string) => {
     if (!addr) return ""
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`
+  }
+
+  const handleDisconnect = () => {
+    disconnect()
+    if (onDisconnect) {
+      onDisconnect()
+    }
   }
 
   return (
@@ -38,14 +50,20 @@ export function TopNav({ walletAddress, creditScore = 0, onMenuToggle, onDisconn
         <div className="hidden sm:flex items-center gap-4">
           {creditScore > 0 && <CreditBadge score={creditScore} />}
           <NetworkBadge />
-          {walletAddress && (
+          {isConnected && displayAddress ? (
             <div className="px-3 py-1 rounded-lg bg-card border border-border/40">
-              <p className="text-sm font-mono text-muted-foreground">{truncateAddress(walletAddress)}</p>
+              <p className="text-sm font-mono text-muted-foreground">{truncateAddress(displayAddress)}</p>
             </div>
+          ) : (
+            <Button variant="default" size="sm" onClick={connectMetaMask}>
+              Connect Wallet
+            </Button>
           )}
-          <Button variant="ghost" size="sm" onClick={onDisconnect} className="text-destructive hover:bg-destructive/10">
-            <LogOut className="h-4 w-4" />
-          </Button>
+          {isConnected && (
+            <Button variant="ghost" size="sm" onClick={handleDisconnect} className="text-destructive hover:bg-destructive/10">
+              <LogOut className="h-4 w-4" />
+            </Button>
+          )}
         </div>
 
         {/* Mobile menu toggle */}
@@ -59,20 +77,26 @@ export function TopNav({ walletAddress, creditScore = 0, onMenuToggle, onDisconn
         <div className="sm:hidden border-t border-border/40 px-4 py-4 flex flex-col gap-3">
           {creditScore > 0 && <CreditBadge score={creditScore} />}
           <NetworkBadge />
-          {walletAddress && (
+          {isConnected && displayAddress ? (
             <div className="px-3 py-1 rounded-lg bg-card border border-border/40">
-              <p className="text-sm font-mono text-muted-foreground">{truncateAddress(walletAddress)}</p>
+              <p className="text-sm font-mono text-muted-foreground">{truncateAddress(displayAddress)}</p>
             </div>
+          ) : (
+            <Button variant="default" size="sm" onClick={connectMetaMask}>
+              Connect Wallet
+            </Button>
           )}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onDisconnect}
-            className="text-destructive hover:bg-destructive/10 justify-start"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Disconnect
-          </Button>
+          {isConnected && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDisconnect}
+              className="text-destructive hover:bg-destructive/10 justify-start"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Disconnect
+            </Button>
+          )}
         </div>
       )}
     </nav>

@@ -14,9 +14,12 @@ const shardeum = {
   },
 } as const
 
+// Get WalletConnect Project ID from env, or skip WalletConnect if not configured
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID
+
 export const config = getDefaultConfig({
   appName: "Cred-Fi",
-  projectId: "YOUR_PROJECT_ID", // Get from WalletConnect Cloud
+  projectId: projectId || "default", // Use 'default' if no project ID
   chains: [shardeum as any],
   ssr: true,
 })

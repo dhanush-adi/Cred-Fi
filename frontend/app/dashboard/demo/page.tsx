@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { DemoCard } from "@/components/dashboard/demo-card"
-import { Play } from "lucide-react"
+import { Play, AlertCircle } from "lucide-react"
+import { useWallet } from "@/hooks/use-wallet"
 
 const demoContracts = [
   {
@@ -45,11 +45,40 @@ const demoContracts = [
   },
 ]
 
-const creditScore = 72
-
 export default function DemoPage() {
+  const { address, isConnected } = useWallet()
+  const [creditScore, setCreditScore] = useState(0)
+  const [userBalance, setUserBalance] = useState(0)
   const [loadingId, setLoadingId] = useState<string | null>(null)
   const [activityLog, setActivityLog] = useState<Array<{ timestamp: string; action: string; result: string }>>([])
+  const [loading, setLoading] = useState(true)
+
+  // Fetch user data when wallet connects
+  useEffect(() => {
+    if (!isConnected || !address) {
+      setLoading(false)
+      return
+    }
+
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/api/user/${address}`
+        )
+        if (response.ok) {
+          const data = await response.json()
+          setCreditScore(data.creditScore || 0)
+          setUserBalance(data.balance || 0)
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUserData()
+  }, [address, isConnected])
 
   const handleTest = async (contractId: string) => {
     setLoadingId(contractId)
@@ -89,11 +118,32 @@ export default function DemoPage() {
     setLoadingId(null)
   }
 
+  if (!isConnected) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-4xl font-bold text-balance">Contract Demos</h1>
+          <p className="text-muted-foreground mt-2">Test smart contract interactions on Shardeum</p>
+        </div>
+        <Card className="p-8 text-center">
+          <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <h3 className="text-lg font-bold mb-2">Connect Your Wallet</h3>
+          <p className="text-muted-foreground">Please connect your wallet to run contract demos.</p>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-balance">Contract Demos</h1>
-        <p className="text-muted-foreground mt-2">Test smart contract interactions on Shardeum</p>
+        <p className="text-muted-foreground mt-2">
+          Test smart contract interactions on Shardeum • Credit Score: {creditScore} • Balance: {userBalance.toFixed(2)} SHM
+        </p>
+        <p className="text-sm text-muted-foreground mt-1">
+          Connected: {address?.slice(0, 6)}...{address?.slice(-4)}
+        </p>
       </div>
 
       {/* Run Complete Flow Button */}
@@ -101,7 +151,7 @@ export default function DemoPage() {
         <Button
           onClick={handleRunComplete}
           disabled={loadingId === "complete"}
-          className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
+          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
           size="lg"
         >
           <Play className="h-4 w-4 mr-2" />
@@ -113,15 +163,32 @@ export default function DemoPage() {
       <div>
         <h2 className="text-2xl font-bold mb-4">Available Demos</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {demoContracts.map((contract) => (
-            <DemoCard
-              key={contract.id}
-              {...contract}
-              userCreditScore={creditScore}
-              loading={loadingId === contract.id}
-              onTest={() => handleTest(contract.id)}
-            />
-          ))}
+          {demoContracts.map((contract) => {
+            const isAccessible = creditScore >= contract.requiredCreditScore
+            return (
+              <Card key={contract.id} className="p-6 space-y-4">
+                <div>
+                  <h3 className="font-bold text-lg">{contract.name}</h3>
+                  <p className="text-sm text-muted-foreground">{contract.description}</p>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  Required Credit Score: {contract.requiredCreditScore}
+                  {isAccessible ? (
+                    <span className="ml-2 text-green-600">✓ Accessible</span>
+                  ) : (
+                    <span className="ml-2 text-red-600">✗ Locked</span>
+                  )}
+                </div>
+                <Button
+                  onClick={() => handleTest(contract.id)}
+                  disabled={loadingId === contract.id || !isAccessible}
+                  className="w-full"
+                >
+                  {loadingId === contract.id ? "Running..." : "Test"}
+                </Button>
+              </Card>
+            )
+          })}
         </div>
       </div>
 

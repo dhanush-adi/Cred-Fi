@@ -25,6 +25,82 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'vlayer proxy server running' });
 });
 
+// GET /api/user/:address - Get user data by wallet address
+app.get('/api/user/:address', (req, res) => {
+  const { address } = req.params;
+  
+  // Generate consistent but pseudo-random data based on wallet address
+  const hash = address.split('').reduce((acc, char) => {
+    return ((acc << 5) - acc) + char.charCodeAt(0);
+  }, 0);
+  
+  const creditScore = Math.abs(hash % 100);
+  const balance = Math.abs((hash * 7) % 1000) / 2;
+  const availableCredit = Math.abs((hash * 13) % 2000);
+  const activeAgents = Math.abs((hash * 3) % 5);
+  
+  res.json({
+    address,
+    balance: parseFloat(balance.toFixed(2)),
+    creditScore,
+    availableCredit,
+    activeAgents,
+    transactions: [
+      { type: 'Transfer', amount: '50 SHM', status: 'Confirmed', date: '2 hours ago' },
+      { type: 'Borrow', amount: '100 SHM', status: 'Confirmed', date: '1 day ago' },
+      { type: 'Yield', amount: '5.2 SHM', status: 'Confirmed', date: '3 days ago' },
+    ],
+  });
+});
+
+// POST /api/transfer - Handle token transfers for marketplace purchases
+app.post('/api/transfer', (req, res) => {
+  try {
+    const { from, to, amount, items } = req.body;
+
+    if (!from || !to || !amount) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: from, to, amount' 
+      });
+    }
+
+    // Log the transfer
+    console.log(`💳 Token Transfer Requested:`);
+    console.log(`  From: ${from}`);
+    console.log(`  To: ${to}`);
+    console.log(`  Amount: ${amount} SHM`);
+    console.log(`  Items: ${items ? items.length : 0} product(s)`);
+    if (items) {
+      items.forEach(item => {
+        console.log(`    - Product ${item.productId}: qty ${item.quantity}`);
+      });
+    }
+
+    // Generate mock transaction hash
+    const txHash = '0x' + Math.random().toString(16).substring(2, 66);
+    
+    // Return success response
+    res.json({
+      success: true,
+      txHash,
+      from,
+      to,
+      amount,
+      itemsCount: items ? items.length : 0,
+      timestamp: new Date().toISOString(),
+      message: 'Transfer initiated successfully',
+    });
+
+    console.log(`✅ Transfer logged with txHash: ${txHash}`);
+  } catch (error) {
+    console.error('❌ Transfer error:', error);
+    res.status(500).json({ 
+      error: 'Transfer failed',
+      message: error.message 
+    });
+  }
+});
+
 // POST /api/vlayer/prove - Generate Web Proof
 app.post('/api/vlayer/prove', async (req, res) => {
   try {

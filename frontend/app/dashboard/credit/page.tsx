@@ -2,9 +2,10 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CreditScoreCircle } from "@/components/dashboard/credit-score-circle"
 import { TrendingUp, Download } from "lucide-react"
+import { CreditPageClient } from "@/components/dashboard/credit-page-client"
 
 export default function CreditPage() {
-  const creditScore = 72
+  return <CreditPageClient />
 
   return (
     <div className="space-y-8">
