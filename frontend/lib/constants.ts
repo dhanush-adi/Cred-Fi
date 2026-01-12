@@ -7,10 +7,14 @@ export const SHARDEUM_TESTNET = {
   blockExplorerUrls: ["https://explorer-mezame.shardeum.org/"],
 }
 
-// Smart Contract Addresses (Placeholders - will be replaced after deployment)
+// Smart Contract Addresses (Deployed on Shardeum Mezame Testnet)
 export const CONTRACT_ADDRESSES = {
+  flexCreditCore: "0x430A0628AAa1a00C8Cb523eE9f9D6423d7fcC4fD",
+  agentPolicy: "0x4e1111768eB562d0f551DB76acd139510445B997",
+  incomeProofVerifier: "0xB32EE796D1c7f98cC53A229B136b4977AE28050b",
+  agentPerformanceVerifier: "0xEDFAEF37272dB1E71D474443Ed8bCa2152C851c5",
+  // Legacy placeholders
   agentWalletFactory: "0x0000000000000000000000000000000000000000",
-  flexCreditCore: "0x0000000000000000000000000000000000000000",
   marketplaceRouter: "0x0000000000000000000000000000000000000000",
   tokenVault: "0x0000000000000000000000000000000000000000",
   creditOracle: "0x0000000000000000000000000000000000000000",
