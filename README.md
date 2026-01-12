@@ -84,4 +84,4 @@ npm run dev
 
 ---
 
-Built for ETHGlobal Buenos Aires 🇦🇷
+Built for Defy-26
