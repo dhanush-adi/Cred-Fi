@@ -1,0 +1,30 @@
+{
+  "name": "cred-fi-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Cred-Fi credit platform",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "deploy": "npx hardhat run scripts/deploy-vouch-contracts.js --network shardeum",
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test"
+  },
+  "keywords": ["defi", "credit", "blockchain", "vlayer", "vouch"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "ethers": "^6.9.0",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.4"
+  }
+}
