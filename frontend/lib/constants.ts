@@ -13,6 +13,7 @@ export const CONTRACT_ADDRESSES = {
   agentPolicy: "0x4e1111768eB562d0f551DB76acd139510445B997",
   incomeProofVerifier: "0xB32EE796D1c7f98cC53A229B136b4977AE28050b",
   agentPerformanceVerifier: "0xEDFAEF37272dB1E71D474443Ed8bCa2152C851c5",
+  confidentialScore: "0x3de03AB80fdDDa888598303FF34E496bD29E140F", // Update after Inco deployment
   // Legacy placeholders
   agentWalletFactory: "0x0000000000000000000000000000000000000000",
   marketplaceRouter: "0x0000000000000000000000000000000000000000",

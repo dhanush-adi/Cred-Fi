@@ -4,8 +4,13 @@ import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CreditScoreCircle } from "./credit-score-circle"
-import { Download } from "lucide-react"
+import { Download, Lock } from "lucide-react"
 import { useWallet } from "@/hooks/use-wallet"
+import { useWriteContract, useSwitchChain } from "wagmi"
+import { CONFIDENTIAL_SCORE_ABI } from "@/lib/contract-abi"
+import { CONTRACT_ADDRESSES } from "@/lib/constants"
+import { encryptScore } from "@/lib/fhevm"
+import { baseSepolia } from "viem/chains"
 
 interface CreditData {
   creditScore: number
@@ -18,8 +23,45 @@ interface CreditData {
 
 export function CreditPageClient() {
   const { address, isConnected } = useWallet()
+  const { writeContractAsync } = useWriteContract()
+  const { switchChainAsync } = useSwitchChain()
+  
   const [creditData, setCreditData] = useState<CreditData | null>(null)
   const [loading, setLoading] = useState(false)
+  const [verifying, setVerifying] = useState(false)
+
+  const handleConfidentialVerify = async () => {
+    if (!creditData || !address) return;
+    setVerifying(true);
+    try {
+      console.log("Switching to Base Sepolia for Inco...");
+      await switchChainAsync({ chainId: baseSepolia.id });
+
+      console.log("Encrypting score...", creditData.creditScore);
+      // Encrypt the visible score to send it confidentially to the chain
+      // Note: contractAddress should be the real deployed address
+      const encryptedHandle = await encryptScore(
+        creditData.creditScore, 
+        CONTRACT_ADDRESSES.confidentialScore, 
+        address
+      );
+
+      console.log("Sending transaction...");
+      await writeContractAsync({
+        address: CONTRACT_ADDRESSES.confidentialScore as `0x${string}`,
+        abi: CONFIDENTIAL_SCORE_ABI,
+        functionName: "setScore",
+        args: [encryptedHandle], // Correctly passing the bytes handle
+      });
+      
+      alert("Score encrypted and verified on-chain confidentially!");
+    } catch (e) {
+      console.error("Verification failed:", e);
+      alert("Verification failed. See console.");
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   useEffect(() => {
     if (!isConnected || !address) {
@@ -105,10 +147,19 @@ export function CreditPageClient() {
           <p className="text-muted-foreground mb-6">
             Your credit profile shows your financial activity and payment history based on your wallet address: {address?.slice(0, 6)}...{address?.slice(-4)}
           </p>
-          <div className="space-y-2">
+          <div className="flex flex-wrap gap-4">
             <Button className="w-full sm:w-auto">
               <Download className="h-4 w-4 mr-2" />
               Income Verification
+            </Button>
+            <Button 
+                variant="secondary" 
+                className="w-full sm:w-auto"
+                onClick={handleConfidentialVerify}
+                disabled={verifying}
+              >
+                <Lock className="mr-2 h-4 w-4" />
+                {verifying ? "Encrypting on Inco..." : "Verify Confidentially (Inco)"}
             </Button>
           </div>
         </div>

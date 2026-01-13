@@ -1,0 +1,7 @@
+{
+    "solidity.packageDefaultDependenciesDirectory": "node_modules",
+    "solidity.remappings": [
+        "@inco/lightning/=backend/node_modules/@inco/lightning/",
+        "@openzeppelin/=backend/node_modules/@openzeppelin/"
+    ]
+}

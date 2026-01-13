@@ -40,6 +40,23 @@ export const FLEX_CREDIT_CORE_ABI = [
   },
 ] as const
 
+export const CONFIDENTIAL_SCORE_ABI = [
+  {
+    name: "setScore",
+    type: "function",
+    inputs: [{ name: "encryptedScore", type: "bytes" }],
+    outputs: [],
+    stateMutability: "nonpayable"
+  },
+  {
+    name: "checkEligibility",
+    type: "function",
+    inputs: [{ name: "threshold", type: "uint256" }],
+    outputs: [{ name: "isEligible", type: "bool" }],
+    stateMutability: "view"
+  }
+] as const
+
 export const AGENT_WALLET_FACTORY_ABI = [
   {
     name: "deployAgent",
