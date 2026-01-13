@@ -9,6 +9,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  
+  // Serverless configuration for edge deployment
+  experimental: {
+    serverComponentsExternalPackages: ['pino', 'thread-stream'],
+  },
 }
 
 export default nextConfig
