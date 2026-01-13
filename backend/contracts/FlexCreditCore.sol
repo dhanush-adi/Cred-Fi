@@ -100,6 +100,32 @@ contract FlexCreditCore {
     }
     
     /**
+     * @notice Self-service credit initialization for demo/testing
+     * @dev Users can set their own income tier for testing purposes
+     * @param incomeBucket Income tier: 0, 500, 1000, 2000 (monthly income in USDC)
+     */
+    function initializeCredit(uint256 incomeBucket) external {
+        require(
+            incomeBucket == 0 || 
+            incomeBucket == 500 || 
+            incomeBucket == 1000 || 
+            incomeBucket == 2000,
+            "Invalid income bucket"
+        );
+        
+        require(creditLimit[msg.sender] == 0, "Credit already initialized");
+        
+        uint256 previousScore = incomeScore[msg.sender];
+        incomeScore[msg.sender] = incomeBucket;
+        
+        // Calculate new credit limit: income * multiplier
+        uint256 newLimit = incomeBucket * CREDIT_MULTIPLIER * 1e6; // Convert to 6 decimals (USDC)
+        creditLimit[msg.sender] = newLimit;
+        
+        emit IncomeScoreApplied(msg.sender, previousScore, incomeBucket, newLimit);
+    }
+    
+    /**
      * @notice Apply verified agent performance from Vouch proof
      * @param user The user who owns the agent
      * @param agentId Unique identifier for the agent

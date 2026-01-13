@@ -1,34 +1,75 @@
 // Smart Contract ABIs
 export const FLEX_CREDIT_CORE_ABI = [
   {
-    name: "borrow",
+    name: "useCredit",
     type: "function",
+    stateMutability: "nonpayable",
     inputs: [{ name: "amount", type: "uint256" }],
-    outputs: [{ name: "success", type: "bool" }],
+    outputs: [],
   },
   {
-    name: "repay",
+    name: "repayCredit",
     type: "function",
+    stateMutability: "nonpayable",
     inputs: [{ name: "amount", type: "uint256" }],
-    outputs: [{ name: "success", type: "bool" }],
+    outputs: [],
   },
   {
-    name: "getBalance",
+    name: "usedCredit",
     type: "function",
+    stateMutability: "view",
     inputs: [{ name: "user", type: "address" }],
-    outputs: [{ name: "balance", type: "uint256" }],
+    outputs: [{ name: "amount", type: "uint256" }],
   },
   {
-    name: "getDebt",
+    name: "creditLimit",
     type: "function",
-    inputs: [{ name: "user", type: "address" }],
-    outputs: [{ name: "debt", type: "uint256" }],
-  },
-  {
-    name: "getCreditLimit",
-    type: "function",
+    stateMutability: "view",
     inputs: [{ name: "user", type: "address" }],
     outputs: [{ name: "limit", type: "uint256" }],
+  },
+  {
+    name: "getCreditInfo",
+    type: "function",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [
+      { name: "income", type: "uint256" },
+      { name: "limit", type: "uint256" },
+      { name: "used", type: "uint256" },
+      { name: "available", type: "uint256" }
+    ],
+  },
+  {
+    name: "getAvailableCredit",
+    type: "function",
+    stateMutability: "view",
+    inputs: [{ name: "user", type: "address" }],
+    outputs: [{ name: "available", type: "uint256" }],
+  },
+  {
+    name: "applyIncomeScore",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "user", type: "address" },
+      { name: "incomeBucket", type: "uint256" }
+    ],
+    outputs: [],
+  },
+  {
+    name: "initializeCredit",
+    type: "function",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "incomeBucket", type: "uint256" }],
+    outputs: [],
+  },
+  {
+    name: "owner",
+    type: "function",
+    stateMutability: "view",
+    inputs: [],
+    outputs: [{ name: "", type: "address" }],
   },
   {
     name: "BorrowEvent",

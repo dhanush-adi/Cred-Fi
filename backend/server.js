@@ -7,6 +7,7 @@
 const express = require('express');
 const cors = require('cors');
 const fetch = require('node-fetch');
+const { encryptScore } = require('./inco-service');
 require('dotenv').config();
 
 const app = express();
@@ -615,10 +616,62 @@ app.get('/api/vouch/status/:requestId', async (req, res) => {
   }
 });
 
+// POST /api/inco/encrypt-score - Encrypt credit score using Inco FHE
+app.post('/api/inco/encrypt-score', async (req, res) => {
+  try {
+    const { score, contractAddress, userAddress } = req.body;
+    
+    // Validation
+    if (!score || !contractAddress || !userAddress) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: score, contractAddress, userAddress' 
+      });
+    }
+    
+    if (typeof score !== 'number' || score < 0 || score > 1000) {
+      return res.status(400).json({ 
+        error: 'Invalid score: must be a number between 0 and 1000' 
+      });
+    }
+    
+    console.log(`🔐 Encrypting score ${score} for ${userAddress.slice(0, 6)}...`);
+    
+    // Encrypt the score
+    try {
+      const encryptedHandle = await encryptScore(score, contractAddress, userAddress);
+      
+      console.log(`✅ Score encrypted successfully`);
+      
+      return res.json({ 
+        success: true,
+        encryptedHandle,
+        score,
+        timestamp: new Date().toISOString()
+      });
+    } catch (encryptError) {
+      // If Inco encryption fails (e.g., gateway unreachable), return a meaningful error
+      console.error('❌ Inco gateway error:', encryptError.message);
+      return res.status(503).json({ 
+        error: 'Inco encryption service temporarily unavailable', 
+        message: 'The Inco Lightning gateway is currently unreachable. This feature requires the Inco network to be accessible.',
+        details: encryptError.message
+      });
+    }
+    
+  } catch (error) {
+    console.error('❌ Encryption error:', error);
+    return res.status(500).json({ 
+      error: 'Encryption failed', 
+      message: error.message 
+    });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 vlayer proxy server running on http://localhost:${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/health`);
   console.log(`🔐 Prove endpoint: http://localhost:${PORT}/api/vlayer/prove`);
   console.log(`🔍 Verify endpoint: http://localhost:${PORT}/api/vlayer/verify`);
   console.log(`📊 Analyze wallet: http://localhost:${PORT}/api/vlayer/analyze-wallet`);
+  console.log(`🔒 Inco encrypt: http://localhost:${PORT}/api/inco/encrypt-score`);
 });

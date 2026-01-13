@@ -9,7 +9,7 @@ export const SHARDEUM_TESTNET = {
 
 // Smart Contract Addresses (Deployed on Shardeum Mezame Testnet)
 export const CONTRACT_ADDRESSES = {
-  flexCreditCore: "0x430A0628AAa1a00C8Cb523eE9f9D6423d7fcC4fD",
+  flexCreditCore: "0x787ce73eEC3182c6E9Bdd6bC48844541F8A16b63",
   agentPolicy: "0x4e1111768eB562d0f551DB76acd139510445B997",
   incomeProofVerifier: "0xB32EE796D1c7f98cC53A229B136b4977AE28050b",
   agentPerformanceVerifier: "0xEDFAEF37272dB1E71D474443Ed8bCa2152C851c5",

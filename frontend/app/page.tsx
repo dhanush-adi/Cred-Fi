@@ -1,12 +1,45 @@
 import Link from "next/link"
 import { ArrowRight, Lock, Zap, TrendingUp, ShoppingCart } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { WavyBackground } from "@/components/ui/wavy-background"
+import { HoverEffect } from "@/components/ui/card-hover-effect"
 
 export default function LandingPage() {
+  const features = [
+    {
+      title: "Zero-Knowledge Verification",
+      description: "Prove your creditworthiness without revealing sensitive financial information",
+      icon: <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+        <Lock className="h-6 w-6 text-primary" />
+      </div>
+    },
+    {
+      title: "AI Agent Wallets",
+      description: "Deploy autonomous agents for trading, yield farming, and payments",
+      icon: <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+        <Zap className="h-6 w-6 text-accent" />
+      </div>
+    },
+    {
+      title: "DeFi Marketplace",
+      description: "Shop, trade, and access services with flexible payment options and credit",
+      icon: <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+        <ShoppingCart className="h-6 w-6 text-primary" />
+      </div>
+    },
+    {
+      title: "Flexible Credit Lines",
+      description: "Access uncollateralized credit with transparent rates and instant approval",
+      icon: <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+        <TrendingUp className="h-6 w-6 text-accent" />
+      </div>
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border/40 backdrop-blur-md glass-dark">
+      <nav className="absolute top-0 left-0 right-0 z-50 border-b border-border/40 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-linear-to-br from-primary to-accent"></div>
@@ -23,35 +56,31 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative px-4 sm:px-6 lg:px-8 py-20 sm:py-32 overflow-hidden">
-        {/* Animated background grid */}
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-br from-primary/20 via-transparent to-accent/20 opacity-40"></div>
-          <svg className="absolute w-full h-full opacity-10" preserveAspectRatio="none">
-            <defs>
-              <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block px-4 py-2 mb-6 rounded-full border border-primary/50 bg-primary/10">
+      {/* Hero Section with Wavy Background */}
+      <WavyBackground
+        className="w-full"
+        containerClassName="relative"
+        colors={["#6366f1", "#8b5cf6", "#ec4899", "#f59e0b", "#10b981"]}
+        waveWidth={50}
+        backgroundFill="rgb(10, 10, 12)"
+        blur={10}
+        speed="slow"
+        waveOpacity={0.3}
+      >
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <div className="inline-block px-4 py-2 mb-6 rounded-full border border-primary/50 bg-primary/10 backdrop-blur-sm">
             <p className="text-sm font-medium text-primary">Shardeum Mezame Network</p>
           </div>
 
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
-            <span className="text-balance">Complete DeFi</span>
+            <span className="text-balance text-white">Complete DeFi</span>
             <br />
-            <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-gradient">
               Credit Platform
             </span>
           </h1>
 
-          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed">
             Unlock your financial potential with zero-knowledge verification, AI agent wallets, and flexible credit
             lines. All on a secure, scalable blockchain.
           </p>
@@ -60,36 +89,36 @@ export default function LandingPage() {
             <Link href="/dashboard">
               <Button
                 size="lg"
-                className="w-full sm:w-auto bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+                className="w-full sm:w-auto bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-primary/50"
               >
-                Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
+                Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-            <button className="px-8 py-3 rounded-lg border border-border text-foreground font-medium hover:bg-card/50 transition">
+            <button className="px-8 py-3 rounded-lg border border-white/20 text-white font-medium hover:bg-white/10 backdrop-blur-sm transition transform hover:scale-105">
               Learn More
             </button>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-border/40">
-            <div>
+          <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-8 border-t border-white/20 backdrop-blur-sm">
+            <div className="transform hover:scale-110 transition-all duration-300">
               <p className="text-2xl sm:text-3xl font-bold text-accent">∞</p>
-              <p className="text-sm text-muted-foreground">Zero Knowledge Proofs</p>
+              <p className="text-sm text-gray-300">Zero Knowledge Proofs</p>
             </div>
-            <div>
+            <div className="transform hover:scale-110 transition-all duration-300">
               <p className="text-2xl sm:text-3xl font-bold text-primary">100%</p>
-              <p className="text-sm text-muted-foreground">On-Chain Transparent</p>
+              <p className="text-sm text-gray-300">On-Chain Transparent</p>
             </div>
-            <div>
+            <div className="transform hover:scale-110 transition-all duration-300">
               <p className="text-2xl sm:text-3xl font-bold text-accent">24/7</p>
-              <p className="text-sm text-muted-foreground">Always Available</p>
+              <p className="text-sm text-gray-300">Always Available</p>
             </div>
           </div>
         </div>
-      </section>
+      </WavyBackground>
 
       {/* Features Section */}
-      <section id="features" className="px-4 sm:px-6 lg:px-8 py-20 sm:py-32 border-t border-border/40">
+      <section id="features" className="px-4 sm:px-6 lg:px-8 py-20 sm:py-32 border-t border-border/40 bg-background">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold mb-4">Powerful Features</h2>
@@ -98,63 +127,7 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {/* Feature 1 */}
-            <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-primary/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
-              <div className="relative">
-                <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
-                  <Lock className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Zero-Knowledge Verification</h3>
-                <p className="text-muted-foreground">
-                  Prove your creditworthiness without revealing sensitive financial information
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 2 */}
-            <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-accent/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-linear-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
-              <div className="relative">
-                <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
-                  <Zap className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">AI Agent Wallets</h3>
-                <p className="text-muted-foreground">
-                  Deploy autonomous agents for trading, yield farming, and payments
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 3 */}
-            <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-primary/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
-              <div className="relative">
-                <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center mb-4">
-                  <ShoppingCart className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">DeFi Marketplace</h3>
-                <p className="text-muted-foreground">
-                  Shop, trade, and access services with flexible payment options and credit
-                </p>
-              </div>
-            </div>
-
-            {/* Feature 4 */}
-            <div className="group relative p-6 rounded-xl border border-border/40 glass hover:border-accent/50 transition cursor-pointer">
-              <div className="absolute inset-0 bg-linear-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition"></div>
-              <div className="relative">
-                <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mb-4">
-                  <TrendingUp className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Flexible Credit Lines</h3>
-                <p className="text-muted-foreground">
-                  Access uncollateralized credit with transparent rates and instant approval
-                </p>
-              </div>
-            </div>
-          </div>
+          <HoverEffect items={features} className="md:grid-cols-2" />
         </div>
       </section>
 
@@ -208,14 +181,14 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-bold mb-6">Ready to Start?</h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Connect your wallet and unlock your financial potential today
+            Enter the dashboard and unlock your financial potential today
           </p>
           <Link href="/dashboard">
             <Button
               size="lg"
               className="bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
             >
-              Connect Wallet <ArrowRight className="ml-2 h-4 w-4" />
+              Get Started <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
         </div>

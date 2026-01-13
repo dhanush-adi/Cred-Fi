@@ -88,7 +88,7 @@ export function BorrowModal({ availableCredit, apr, onClose, onBorrow }: BorrowM
                 </div>
 
                 <div className="bg-primary/10 border border-primary/40 rounded-lg p-3 flex gap-2">
-                  <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                  <Info className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                   <p className="text-xs text-primary">You'll need to repay this loan within 12 months.</p>
                 </div>
               </>

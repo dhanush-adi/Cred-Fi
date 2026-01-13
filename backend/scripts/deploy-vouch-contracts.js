@@ -13,7 +13,7 @@ async function main() {
   const balance = await hre.ethers.provider.getBalance(deployer.address);
   console.log('Account balance:', hre.ethers.formatEther(balance), 'SHM\n');
 
-  // 1. Deploy FlexCreditCore
+  // 1. Deploy FlexCreditCore 
   console.log('📝 Deploying FlexCreditCore...');
   const FlexCreditCore = await hre.ethers.getContractFactory('FlexCreditCore');
   const creditCore = await FlexCreditCore.deploy();

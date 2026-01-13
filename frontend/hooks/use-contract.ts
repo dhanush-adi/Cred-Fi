@@ -14,27 +14,43 @@ export function useCreditContract() {
     if (!publicClient || !address) return null
 
     try {
-      const debt = (await publicClient.readContract({
+      console.log('📡 Fetching credit info from contract:', CONTRACT_ADDRESSES.flexCreditCore)
+      console.log('👤 User address:', address)
+      
+      const creditInfo = (await publicClient.readContract({
         address: CONTRACT_ADDRESSES.flexCreditCore as `0x${string}`,
         abi: FLEX_CREDIT_CORE_ABI,
-        functionName: "getDebt",
+        functionName: "getCreditInfo",
         args: [address],
-      })) as bigint
+      })) as [bigint, bigint, bigint, bigint]
 
-      const balance = (await publicClient.readContract({
-        address: CONTRACT_ADDRESSES.flexCreditCore as `0x${string}`,
-        abi: FLEX_CREDIT_CORE_ABI,
-        functionName: "getBalance",
-        args: [address],
-      })) as bigint
+      console.log('✅ Credit info received:', creditInfo)
+
+      const [income, limit, used, available] = creditInfo
 
       return {
-        debt: Number(debt) / 1e18,
-        balance: Number(balance) / 1e18,
+        debt: Number(used) / 1e6, // USDC has 6 decimals
+        balance: Number(available) / 1e6,
+        limit: Number(limit) / 1e6,
+        income: Number(income),
       }
-    } catch (error) {
-      console.error("Error fetching borrow data:", error)
-      return null
+    } catch (error: any) {
+      // This is expected when credit hasn't been initialized yet
+      const isNotInitialized = error.message?.includes('returned no data') || error.message?.includes('0x')
+      
+      if (isNotInitialized) {
+        console.log('ℹ️ Credit not initialized on-chain yet. Choose an income tier to get started.')
+      } else {
+        console.warn('⚠️ Could not fetch credit data:', error.message || error)
+      }
+      
+      // Return default values instead of null to prevent UI errors
+      return {
+        debt: 0,
+        balance: 0,
+        limit: 0,
+        income: 0,
+      }
     }
   }, [publicClient, address])
 
@@ -43,13 +59,13 @@ export function useCreditContract() {
       if (!walletClient || !address) return null
 
       try {
-        const amountWei = BigInt(Math.floor(amount * 1e18))
+        const amountUsdc = BigInt(Math.floor(amount * 1e6)) // USDC has 6 decimals
 
         const hash = await walletClient.writeContract({
           address: CONTRACT_ADDRESSES.flexCreditCore as `0x${string}`,
           abi: FLEX_CREDIT_CORE_ABI,
-          functionName: "borrow",
-          args: [amountWei],
+          functionName: "useCredit",
+          args: [amountUsdc],
           account: address,
         })
 
@@ -67,13 +83,13 @@ export function useCreditContract() {
       if (!walletClient || !address) return null
 
       try {
-        const amountWei = BigInt(Math.floor(amount * 1e18))
+        const amountUsdc = BigInt(Math.floor(amount * 1e6)) // USDC has 6 decimals
 
         const hash = await walletClient.writeContract({
           address: CONTRACT_ADDRESSES.flexCreditCore as `0x${string}`,
           abi: FLEX_CREDIT_CORE_ABI,
-          functionName: "repay",
-          args: [amountWei],
+          functionName: "repayCredit",
+          args: [amountUsdc],
           account: address,
         })
 
@@ -86,7 +102,29 @@ export function useCreditContract() {
     [walletClient, address],
   )
 
-  return { getBorrow, borrow, repay }
+  const setupCredit = useCallback(
+    async (incomeBucket: number) => {
+      if (!walletClient || !address) return null
+
+      try {
+        const hash = await walletClient.writeContract({
+          address: CONTRACT_ADDRESSES.flexCreditCore as `0x${string}`,
+          abi: FLEX_CREDIT_CORE_ABI,
+          functionName: "initializeCredit",
+          args: [BigInt(incomeBucket)],
+          account: address,
+        })
+
+        return hash
+      } catch (error) {
+        console.error("Error setting up credit:", error)
+        return null
+      }
+    },
+    [walletClient, address],
+  )
+
+  return { getBorrow, borrow, repay, setupCredit }
 }
 
 export function useAgentContract() {
