@@ -191,10 +191,14 @@ export function CreditPageClient() {
 
   if (!isConnected) {
     return (
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-4xl font-bold text-balance">Credit Profile</h1>
-          <p className="text-muted-foreground mt-2">Connect your wallet to view your credit score</p>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <h1 className="text-5xl font-semibold tracking-tight bg-linear-to-br from-foreground via-foreground to-foreground/70 bg-clip-text">
+            Credit Profile
+          </h1>
+          <p className="text-base text-muted-foreground/80">
+            Connect your wallet to view your credit score
+          </p>
         </div>
       </div>
     )
@@ -202,9 +206,12 @@ export function CreditPageClient() {
 
   if (loading || !creditData) {
     return (
-      <div className="space-y-8">
-        <div>
-          <h1 className="text-4xl font-bold text-balance">Loading Credit Profile...</h1>
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <h1 className="text-5xl font-semibold tracking-tight bg-linear-to-br from-foreground via-foreground to-foreground/70 bg-clip-text animate-pulse">
+            Loading Credit Profile...
+          </h1>
+          <div className="h-2 w-48 bg-muted/30 rounded-full animate-pulse" />
         </div>
       </div>
     )
@@ -228,15 +235,20 @@ export function CreditPageClient() {
   const hasInitialized = borrowData && borrowData.limit !== undefined && borrowData.limit > 0
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-4xl font-bold text-balance">Credit Profile</h1>
-        <p className="text-muted-foreground mt-2">View your credit score and factors</p>
+    <div className="space-y-6 pb-8">
+      {/* Hero Section */}
+      <div className="space-y-2">
+        <h1 className="text-5xl font-semibold tracking-tight bg-linear-to-br from-foreground via-foreground to-foreground/70 bg-clip-text">
+          Credit Profile
+        </h1>
+        <p className="text-base text-muted-foreground/80">
+          View your credit score and factors
+        </p>
       </div>
 
       {/* Credit Score Display */}
-      <BackgroundGradient className="rounded-[22px] p-1">
-        <Card className="p-8 flex flex-col sm:flex-row items-center justify-between gap-8 bg-background border-0">
+      <BackgroundGradient className="rounded-3xl p-0.5">
+        <Card className="p-8 flex flex-col sm:flex-row items-center justify-between gap-8 bg-card/50 backdrop-blur-xl border-0 rounded-3xl">
           <CardContainer className="inter-var">
             <CardBody className="relative group/card w-auto h-auto">
               <CardItem translateZ="100" className="w-full">
@@ -247,26 +259,26 @@ export function CreditPageClient() {
           <CardContainer className="flex-1 inter-var">
             <CardBody className="relative group/card w-auto h-auto">
               <CardItem translateZ="50">
-                <h2 className="text-2xl font-bold mb-4">{getStatus(creditData.creditScore)}</h2>
+                <h2 className="text-3xl font-semibold mb-4 tracking-tight">{getStatus(creditData.creditScore)}</h2>
               </CardItem>
               <CardItem translateZ="60">
-                <p className="text-muted-foreground mb-6">
+                <p className="text-muted-foreground/90 mb-6 leading-relaxed">
                   Your credit profile shows your financial activity and payment history based on your wallet address: {address?.slice(0, 6)}...{address?.slice(-4)}
                 </p>
               </CardItem>
-              <CardItem translateZ="70" className="flex flex-wrap gap-4">
-                <Button className="w-full sm:w-auto transform hover:scale-105 transition-all duration-200">
+              <CardItem translateZ="70" className="flex flex-wrap gap-3">
+                <Button className="w-full sm:w-auto shadow-lg hover:shadow-xl hover:shadow-primary/20 transition-all duration-300">
                   <Download className="h-4 w-4 mr-2" />
                   Income Verification
                 </Button>
                 <Button 
                   variant="secondary" 
-                  className="w-full sm:w-auto transform hover:scale-105 transition-all duration-200"
+                  className="w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300"
                   onClick={handleConfidentialVerify}
                   disabled={verifying}
                 >
                   <Lock className="mr-2 h-4 w-4" />
-                  {verifying ? "Encrypting on Inco..." : "Verify Confidentially (Inco)"}
+                  {verifying ? "Encrypting..." : "Verify with Inco"}
                 </Button>
               </CardItem>
             </CardBody>
@@ -275,27 +287,27 @@ export function CreditPageClient() {
       </BackgroundGradient>
 
       {/* Score Breakdown */}
-      <div>
-        <h3 className="text-xl font-bold mb-4">Score Breakdown</h3>
-        <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
+      <div className="space-y-4">
+        <h3 className="text-2xl font-semibold tracking-tight">Score Breakdown</h3>
+        <div className="grid sm:grid-cols-2 gap-4">
           {creditData.factors.map((factor, i) => (
             <CardContainer key={i} className="inter-var w-full">
-              <CardBody className="relative group/card hover:shadow-2xl hover:shadow-primary/10 bg-card border border-border/40 w-full h-full rounded-xl p-6">
+              <CardBody className="relative group/card hover:shadow-xl hover:shadow-primary/5 bg-card/30 backdrop-blur-sm border border-border/40 w-full h-full rounded-2xl p-6 transition-all duration-300">
                 <CardItem translateZ="50" className="w-full">
                   <div className="flex justify-between items-start mb-4 w-full">
                     <div className="flex-1">
-                      <p className="font-semibold text-foreground">{factor.name}</p>
-                      <p className="text-sm text-muted-foreground">{factor.weight}% weight</p>
+                      <p className="font-medium text-foreground/90 text-sm">{factor.name}</p>
+                      <p className="text-xs text-muted-foreground/70 mt-1">{factor.weight}% weight</p>
                     </div>
                     <CardItem translateZ="100" className="shrink-0">
-                      <p className="text-2xl font-bold text-accent">{Math.round(factor.value)}</p>
+                      <p className="text-3xl font-semibold text-primary">{Math.round(factor.value)}</p>
                     </CardItem>
                   </div>
                 </CardItem>
                 <CardItem translateZ="60" className="w-full">
-                  <div className="w-full bg-card h-2 rounded-full overflow-hidden">
+                  <div className="w-full bg-secondary/30 h-2 rounded-full overflow-hidden">
                     <div
-                      className="bg-linear-to-r from-primary to-accent h-full rounded-full transition-all duration-500"
+                      className="bg-linear-to-r from-primary via-primary to-accent h-full rounded-full transition-all duration-700 ease-out"
                       style={{ width: `${Math.min(factor.value, 100)}%` }}
                     />
                   </div>
@@ -307,116 +319,115 @@ export function CreditPageClient() {
       </div>
 
       {/* Credit Line Info */}
-      <BackgroundGradient className="rounded-[22px] p-1">
-        <Card className="p-6 border-0 bg-background">
+      <BackgroundGradient className="rounded-3xl p-0.5">
+        <Card className="p-6 border-0 bg-card/50 backdrop-blur-xl rounded-3xl">
           <div className="flex items-start justify-between mb-6">
-            <div className="flex-1">
-              <h3 className="text-xl font-bold mb-2">Credit Line</h3>
-              <p className="text-sm text-muted-foreground">
+            <div className="flex-1 space-y-2">
+              <h3 className="text-2xl font-semibold tracking-tight">Credit Line</h3>
+              <p className="text-sm text-muted-foreground/80 leading-relaxed">
                 {hasInitialized 
                   ? "Your active credit line based on your income tier" 
                   : `Based on your ${creditData.creditScore} credit score, you're eligible for up to ${eligibleCredit.toFixed(0)} SHM`
                 }
               </p>
               {hasInitialized && borrowData && typeof borrowData.limit === 'number' && borrowData.limit > 0 && (
-                <p className="text-sm font-medium text-primary mt-2">
+                <p className="text-sm font-medium text-primary">
                   Active Limit: {borrowData.limit.toFixed(2)} SHM
                 </p>
               )}
             </div>
-            <div className="w-12 h-12 rounded-lg bg-linear-to-br from-primary/20 to-accent/20 flex items-center justify-center shrink-0">
-              <TrendingUp className="h-6 w-6 text-primary" />
+            <div className="w-14 h-14 rounded-xl bg-linear-to-br from-primary/10 to-accent/10 flex items-center justify-center shrink-0 ring-1 ring-primary/20">
+              <TrendingUp className="h-7 w-7 text-primary" />
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4 lg:gap-6 mb-6">
-            <CardContainer className="inter-var w-full">
-              <CardBody className="w-auto h-auto">
-                <CardItem translateZ="50">
-                  <p className="text-sm text-muted-foreground mb-2">{hasInitialized ? "Available Credit" : "Eligible For"}</p>
-                </CardItem>
-                <CardItem translateZ="100">
-                  <p className="text-3xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                    {hasInitialized ? (borrowData?.balance.toFixed(2) || "0.00") : eligibleCredit.toFixed(0)}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">SHM</p>
-                </CardItem>
-              </CardBody>
-            </CardContainer>
-            <CardContainer className="inter-var w-full">
-              <CardBody className="w-full h-auto">
-                <CardItem translateZ="50">
-                  <p className="text-sm text-muted-foreground mb-2">{hasInitialized ? "Borrowed Amount" : "Current Debt"}</p>
-                </CardItem>
-                <CardItem translateZ="100">
-                  <p className="text-3xl font-bold text-warning">
-                    {borrowData ? borrowData.debt.toFixed(2) : "0.00"}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">SHM</p>
-                </CardItem>
-              </CardBody>
-            </CardContainer>
-          </div>
-
-          {borrowData && borrowData.balance > 0 && (
-            <div className="mb-6">
-              <p className="text-sm text-muted-foreground mb-2">Credit Utilization</p>
-              <div className="w-full bg-secondary/40 rounded-full h-3 overflow-hidden">
-                <div 
-                  className="bg-linear-to-r from-accent via-primary to-primary h-full rounded-full transition-all duration-500" 
-                  style={{ 
-                    width: `${Math.min((borrowData.debt / (borrowData.balance + borrowData.debt)) * 100, 100)}%` 
-                  }}
-                />
-              </div>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-5">
+              <p className="text-xs text-muted-foreground/80 mb-3 uppercase tracking-wider font-medium">
+                {hasInitialized ? "Available Credit" : "Eligible For"}
+              </p>
+              <p className="text-4xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                {hasInitialized ? (borrowData?.balance.toFixed(2) || "0") : eligibleCredit}
+              </p>
+              <p className="text-xs text-muted-foreground/70 mt-2 font-semibold">SHM</p>
             </div>
-          )}
+            <div className="bg-card/80 backdrop-blur-sm border border-border rounded-2xl p-5">
+              <p className="text-xs text-muted-foreground/80 mb-3 uppercase tracking-wider font-medium">
+                {hasInitialized ? "Borrowed Amount" : "Current Debt"}
+              </p>
+              <p className="text-4xl font-bold text-warning">
+                {borrowData?.debt ? borrowData.debt.toFixed(2) : "0.00"}
+              </p>
+              <p className="text-xs text-muted-foreground/70 mt-2 font-semibold">SHM</p>
+            </div>
+          </div>
 
           {borrowData && borrowData.balance > 0 ? (
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Button 
-                className="w-full bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-primary/50"
-                onClick={() => setShowBorrowModal(true)}
-              >
-                Borrow
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full bg-transparent transform hover:scale-105 transition-all duration-200"
-                onClick={() => setShowRepayModal(true)}
-                disabled={!borrowData || borrowData.debt <= 0}
-              >
-                Repay
-              </Button>
-            </div>
+            <>
+              <div className="mb-6">
+                <p className="text-xs text-muted-foreground/70 mb-3 uppercase tracking-wider">Credit Utilization</p>
+                <div className="w-full bg-secondary/20 rounded-full h-3 overflow-hidden backdrop-blur-sm">
+                  <div 
+                    className="bg-linear-to-r from-accent via-primary to-primary h-full rounded-full transition-all duration-700 ease-out shadow-lg shadow-primary/30" 
+                    style={{ 
+                      width: `${Math.min((borrowData.debt / (borrowData.balance + borrowData.debt)) * 100, 100)}%` 
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <Button 
+                  size="lg"
+                  className="w-full bg-linear-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 shadow-lg hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
+                  onClick={() => setShowBorrowModal(true)}
+                >
+                  Borrow SHM
+                </Button>
+                <Button 
+                  size="lg"
+                  variant="outline" 
+                  className="w-full shadow-md hover:shadow-lg transition-all duration-300"
+                  onClick={() => setShowRepayModal(true)}
+                  disabled={!borrowData || borrowData.debt <= 0}
+                >
+                  Repay
+                </Button>
+              </div>
+            </>
           ) : (
-            <div className="w-full space-y-3">
-              <p className="text-sm text-muted-foreground mb-1">
-                Choose your credit tier to activate:
-              </p>
-              <p className="text-xs text-primary font-medium">
-                💡 Recommended: {creditData.creditScore >= 70 ? "200 SHM" : creditData.creditScore >= 40 ? "33 SHM" : "Build your score first"} based on your {creditData.creditScore} credit score
-              </p>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="w-full space-y-4">
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground/80">
+                  Choose your credit tier to activate:
+                </p>
+                <div className="inline-block">
+                  <p className="text-xs text-primary font-medium bg-primary/5 px-3 py-2 rounded-lg">
+                    💡 Recommended: {creditData.creditScore >= 70 ? "200 SHM" : creditData.creditScore >= 40 ? "33 SHM" : "Build your score first"} based on your {creditData.creditScore} credit score
+                  </p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button
                   variant="outline"
                   size="lg"
                   onClick={() => handleSetupCredit(200)}
                   disabled={settingUp}
-                  className="h-auto py-4 flex flex-col items-center gap-1"
+                  className="h-auto py-6 flex flex-col items-center justify-center gap-2 hover:bg-primary/5 hover:border-primary/50 transition-all duration-300 group"
                 >
-                  <span className="text-2xl font-bold">200 SHM</span>
-                  <span className="text-xs text-muted-foreground">High Credit Tier</span>
+                  <span className="text-3xl font-semibold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent group-hover:scale-110 transition-transform">200</span>
+                  <span className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">High Credit Tier</span>
+                  <span className="text-[10px] text-muted-foreground/50">SHM</span>
                 </Button>
                 <Button
                   variant="outline"
                   size="lg"
                   onClick={() => handleSetupCredit(33)}
                   disabled={settingUp}
-                  className="h-auto py-4 flex flex-col items-center gap-1"
+                  className="h-auto py-6 flex flex-col items-center justify-center gap-2 hover:bg-accent/5 hover:border-accent/50 transition-all duration-300 group"
                 >
-                  <span className="text-2xl font-bold">33 SHM</span>
-                  <span className="text-xs text-muted-foreground">Standard Tier</span>
+                  <span className="text-3xl font-semibold bg-linear-to-r from-accent to-primary bg-clip-text text-transparent group-hover:scale-110 transition-transform">33</span>
+                  <span className="text-xs text-muted-foreground/70 font-medium uppercase tracking-wider">Standard Tier</span>
+                  <span className="text-[10px] text-muted-foreground/50">SHM</span>
                 </Button>
               </div>
             </div>

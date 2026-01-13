@@ -4,86 +4,86 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* DeFi color scheme - Dark theme optimized */
-  --background: #0f0f23;
+  /* Electric Pulse - High-Velocity Fintech Theme */
+  --background: #0A0C10;
   --foreground: #ffffff;
-  --card: #1a1a3e;
+  --card: #1E293B;
   --card-foreground: #ffffff;
-  --popover: #1a1a3e;
+  --popover: #1E293B;
   --popover-foreground: #ffffff;
-  --primary: #6366f1;
+  --primary: #635BFF;
   --primary-foreground: #ffffff;
-  --secondary: #2d2d5f;
+  --secondary: #1E293B;
   --secondary-foreground: #ffffff;
-  --muted: #4f4f8f;
-  --muted-foreground: #9ca3af;
-  --accent: #10b981;
-  --accent-foreground: #ffffff;
-  --success: #10b981;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #00E5E5;
+  --accent-foreground: #0A0C10;
+  --success: #00E5E5;
   --warning: #f59e0b;
   --error: #ef4444;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #2d2d5f;
-  --input: #1a1a3e;
-  --ring: #6366f1;
-  --chart-1: #6366f1;
-  --chart-2: #10b981;
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #635BFF;
+  --chart-1: #635BFF;
+  --chart-2: #00E5E5;
   --chart-3: #f59e0b;
   --chart-4: #ef4444;
   --chart-5: #8b5cf6;
   --radius: 0.625rem;
-  --sidebar: #0f0f23;
+  --sidebar: #0A0C10;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #6366f1;
+  --sidebar-primary: #635BFF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #10b981;
-  --sidebar-accent-foreground: #0f0f23;
-  --sidebar-border: #2d2d5f;
-  --sidebar-ring: #6366f1;
+  --sidebar-accent: #00E5E5;
+  --sidebar-accent-foreground: #0A0C10;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #635BFF;
 }
 
 .dark {
-  --background: #0f0f23;
+  --background: #0A0C10;
   --foreground: #ffffff;
-  --card: #1a1a3e;
+  --card: #1E293B;
   --card-foreground: #ffffff;
-  --popover: #1a1a3e;
+  --popover: #1E293B;
   --popover-foreground: #ffffff;
-  --primary: #6366f1;
+  --primary: #635BFF;
   --primary-foreground: #ffffff;
-  --secondary: #2d2d5f;
+  --secondary: #1E293B;
   --secondary-foreground: #ffffff;
-  --muted: #4f4f8f;
-  --muted-foreground: #9ca3af;
-  --accent: #10b981;
-  --accent-foreground: #0f0f23;
-  --success: #10b981;
+  --muted: #334155;
+  --muted-foreground: #94a3b8;
+  --accent: #00E5E5;
+  --accent-foreground: #0A0C10;
+  --success: #00E5E5;
   --warning: #f59e0b;
   --error: #ef4444;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
-  --border: #2d2d5f;
-  --input: #1a1a3e;
-  --ring: #6366f1;
-  --chart-1: #6366f1;
-  --chart-2: #10b981;
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #635BFF;
+  --chart-1: #635BFF;
+  --chart-2: #00E5E5;
   --chart-3: #f59e0b;
   --chart-4: #ef4444;
   --chart-5: #8b5cf6;
-  --sidebar: #0f0f23;
+  --sidebar: #0A0C10;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #6366f1;
+  --sidebar-primary: #635BFF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #10b981;
-  --sidebar-accent-foreground: #0f0f23;
-  --sidebar-border: #2d2d5f;
-  --sidebar-ring: #6366f1;
+  --sidebar-accent: #00E5E5;
+  --sidebar-accent-foreground: #0A0C10;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #635BFF;
 }
 
 @theme inline {
-  --font-sans: "Geist", "Geist Fallback";
-  --font-mono: "Geist Mono", "Geist Mono Fallback";
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Courier New", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -126,8 +126,49 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+    font-variant-numeric: proportional-nums;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography improvements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight;
+    font-weight: 600;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+    letter-spacing: -0.015em;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+    letter-spacing: -0.01em;
+  }
+
+  /* Smooth transitions for interactive elements */
+  button, a, input, select, textarea {
+    @apply transition-all duration-200 ease-in-out;
+  }
+
+  /* Better focus states */
+  button:focus-visible, 
+  a:focus-visible, 
+  input:focus-visible, 
+  select:focus-visible, 
+  textarea:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary/60;
   }
 }
 

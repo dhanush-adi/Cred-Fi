@@ -1,12 +1,15 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Providers } from "@/components/providers"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "Cred-Fi | DeFi Credit Platform",
@@ -34,7 +37,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "#0f0f23" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0C10" },
   ],
   userScalable: true,
   width: "device-width",
@@ -47,11 +50,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body className={`font-sans antialiased`}>
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased">
+        <Providers>{children}</Providers>
         <Analytics />
       </body>
     </html>
